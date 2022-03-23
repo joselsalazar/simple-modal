@@ -1,19 +1,31 @@
-'use strict';
+"use strict";
+const modals = document.querySelectorAll(".modal");
+const overlay = document.querySelector(".overlay");
+const btnsOpenModal = document.querySelectorAll(".show-modal");
 
-const modal = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
-const btnCloseModal = document.querySelector('.close-modal');
-const btnsOpenModal = document.querySelectorAll('.show-modal');
-
-const modalShow = () => {
-  modal.classList.toggle('hidden');
-  overlay.classList.toggle('hidden');
+const modalShow = (id) => {
+  overlay.classList.toggle("hidden");
+  if (id === "all") {
+    for (let i = 0; i < modals.length; i++) {
+      const eachModal = modals[i];
+      if (!eachModal.classList.contains("hidden")) {
+        eachModal.classList.add("hidden");
+      }
+    }
+  } else {
+    const modal = document.querySelector(id);
+    modal.classList.toggle("hidden");
+  }
 };
 
 for (let i = 0; i < btnsOpenModal.length; i++) {
   const btnClick = btnsOpenModal[i];
-  btnClick.addEventListener('click', modalShow);
+  const value = btnClick.value;
+  btnClick.addEventListener("click", () => {
+    modalShow(`#${value}`);
+  });
 }
 
-overlay.addEventListener('click', modalShow);
-btnCloseModal.addEventListener('click', modalShow);
+overlay.addEventListener("click", () => {
+  modalShow("all");
+});
